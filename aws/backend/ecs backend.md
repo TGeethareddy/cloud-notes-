@@ -1,4 +1,4 @@
-# ECS Backend Deployment (incom)
+# ECS Backend Deployment 
 
 * EC2 (Docker)
 * ECR (Docker Image)
@@ -216,6 +216,70 @@ aws ecs run-task \
 
  copy task id from abouve code edit below and run 
  `aws ecs describe-tasks --cluster backend-cluster --tasks 6ffc0b20418144bda639423c8c5c5166 --region eu-north-1`
+
+### Step 13: Login Docker to ECR
+ ```
+aws ecr get-login-password --region eu-north-1 \
+| docker login --username AWS --password-stdin \
+066712929553.dkr.ecr.eu-north-1.amazonaws.com
+```
+
+*Tage the image*
+```
+docker tag backend-app:latest \
+066712929553.dkr.ecr.eu-north-1.amazonaws.com/mywebcluster:latest
+```
+*Push Image to ECR*
+`docker push 066712929553.dkr.ecr.eu-north-1.amazonaws.com/mywebcluster:latest`
+
+*Verify Image Is in ECR*
+`aws ecr list-images --repository-name mywebcluster`
+
+expected output:imageTag: latest
+
+
+### step14 : Create ECS Task Definition
+aws→ ecs→ taskdefinition→new task
+lunchtype -fargare →
+Field 	Value
+Task     definition name	backend-task
+Operasys Linux
+CPU	     0.5 vCPU
+Memory	 1 GB
+Taskrole  None
+
+Container Configuration
+Field	       Value
+Containername	backend-container
+Image         066712929553.dkr.ecr.eu-north-1.amazonaws.com/mywebcluster:latest
+Port mappings	3000 (TCP)
+
+### step15 :Create ECS Cluster
+
+### step16 : Create ECS Service
+AWS Console → ECS → Clusters → backend-cluster
+Click Create service
+
+verify task is running .
+
+copy public ip - open ecs →Clusters→backend-cluster→Click on the Task ID→copy private ip .
+Open browser (new tab): http://13.53.108.68:3000
+
+if not opened 
+Check Security Group (DO THIS NOW)
+
+ECS → Cluster → Tasks → Click task
+
+Scroll to Networking
+
+Click Security group - add inbound rule
+
+Type	Protocol	Port	Source
+Custom TCP	TCP	3000	0.0.0.0/0
+
+run again 
+
+
 
  
 
