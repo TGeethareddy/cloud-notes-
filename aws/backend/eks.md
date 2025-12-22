@@ -1,3 +1,4 @@
+
 # EKS backend 
 
 * What We Will Do (Overview)*
@@ -211,3 +212,18 @@ expected output
 EXTERNAL-IP   a1b2c3d4.eu-north-1.elb.amazonaws.com
 
 Open in browser and seach the ip 
+
+Delete :
+Delete Kubernetes Services of type LoadBalancer
+```
+kubectl delete svc backend-service
+kubectl delete svc backend-deployment
+```
+
+Delete the Deployment
+`kubectl delete deployment backend-deployment`
+
+Delete the EKS Cluster
+`eksctl delete cluster --name backend-cluster --region eu-north-1`
+
+
