@@ -47,4 +47,22 @@ Open Jenkins in browser
 ### step5:Unlock Jenkins
 `sudo cat /var/lib/jenkins/secrets/initialAdminPassword`
 
+# to run full stack
+Install Node.js + NPM (for backend)
+```
+sudo apt install -y nodejs npm
+node -v
+npm -v
+```
+Install Nginx
+```
+sudo apt install -y nginx
+sudo systemctl enable --now nginx
+```
+Test: 
+http://<EC2-Public-IP>
+You should see “Welcome to nginx”.
+
+### step2: Allow Jenkins to run deploy commands cleanly
+
 
